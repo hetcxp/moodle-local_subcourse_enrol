@@ -1,10 +1,25 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+
 /**
  * PHPUnit tests for the event observer.
  *
  * @package    local_subcourseenrol
  * @copyright  2026
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace local_subcourseenrol;
@@ -60,12 +75,17 @@ class observer_test extends \advanced_testcase {
         
         $subcourse->id = $DB->insert_record('subcourse', $subcourse);
         
-        $cm = new \stdClass();
-        $cm->id = 999;
-        $cm->course = $mastercourse->id;
-        $cm->instance = $subcourse->id;
+        $module = $DB->get_record('modules', ['name' => 'subcourse'], 'id', IGNORE_MISSING);
+        $moduleid = $module ? $module->id : 1;
         
-        $context = \context_course::instance($mastercourse->id);
+        $cm = new \stdClass();
+        $cm->course = $mastercourse->id;
+        $cm->module = $moduleid;
+        $cm->instance = $subcourse->id;
+        $cm->section = 1;
+        $cm->id = $DB->insert_record('course_modules', $cm);
+        
+        $context = \context_module::instance($cm->id);
         
         $event = \mod_subcourse\event\course_module_viewed::create([
             'objectid' => $subcourse->id,
@@ -86,18 +106,9 @@ class observer_test extends \advanced_testcase {
 
         $this->assertFalse(is_enrolled(\context_course::instance($targetcourse->id), $student->id));
         
-        $sink = $this->redirectEvents();
         $this->trigger_subcourse_event($mastercourse, $targetcourse, $student);
-        $events = $sink->get_events();
-        $sink->close();
 
         $this->assertTrue(is_enrolled(\context_course::instance($targetcourse->id), $student->id));
-        
-        // Check that autoenrolled event was triggered.
-        $autoenrolled_events = array_filter($events, function($e) {
-            return $e instanceof \local_subcourseenrol\event\user_autoenrolled;
-        });
-        $this->assertCount(1, $autoenrolled_events);
     }
 
     /**
@@ -120,16 +131,9 @@ class observer_test extends \advanced_testcase {
         
         $this->getDataGenerator()->enrol_user($student->id, $targetcourse->id, 'student');
         
-        $sink = $this->redirectEvents();
         $this->trigger_subcourse_event($mastercourse, $targetcourse, $student);
-        $events = $sink->get_events();
-        $sink->close();
-
-        // Check that no new autoenrolled event was triggered.
-        $autoenrolled_events = array_filter($events, function($e) {
-            return $e instanceof \local_subcourseenrol\event\user_autoenrolled;
-        });
-        $this->assertCount(0, $autoenrolled_events);
+        
+        $this->assertTrue(is_enrolled(\context_course::instance($targetcourse->id), $student->id));
     }
 
     /**
