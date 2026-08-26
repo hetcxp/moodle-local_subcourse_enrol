@@ -1,0 +1,3 @@
+# Ignorar carpeta de inteligencia LLM
+.llm_build/
+llm/
