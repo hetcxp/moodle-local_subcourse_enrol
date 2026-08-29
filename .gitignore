@@ -1,3 +1,36 @@
-# Ignorar carpeta de inteligencia LLM
+# --- Herramientas de desarrollo locales ---
 .llm_build/
-llm/
+tests
+gitdiff.md
+
+# Archivos de reglas de otros editores (por si acaso quedaron)
+.cursorrules
+
+# --- Archivos del sistema operativo ---
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+Thumbs.db
+
+# --- Carpetas de IDEs y editores ---
+.vscode/
+.idea/
+*.swp
+*.bak
+
+# Evitar que Antigravity se auto-indexe si crea logs locales
+.antigravity/
+
+# --- Dependencias y Moodle ---
+node_modules/
+vendor/
+
+# Si usas herramientas de compilación de Moodle (como Grunt o Shifter)
+.grunt/
+.npm/
+
+# --- Archivos temporales de PHP / Servidor ---
+*.log
+error_log
+.phpunit.result.cache
