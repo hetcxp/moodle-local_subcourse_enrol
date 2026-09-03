@@ -30,5 +30,5 @@ $plugin->requires  = 2024100700; // Moodle 4.5+
 $plugin->maturity  = MATURITY_STABLE;
 $plugin->release   = '2.0.0';
 $plugin->dependencies = [
-    'mod_subcourse' => 2026021900 // Requires 2026021900 which introduces the course_module_viewed event.
+    'mod_subcourse' => 2025032001 // Requires 2025032001 which introduces the course_module_viewed event.
 ];
