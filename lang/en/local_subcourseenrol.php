@@ -8,17 +8,17 @@
 //
 // Moodle is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle. If not, see <https://www.gnu.org/licenses/>.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * English strings for local_subcourseenrol
+ * Strings for component 'local_subcourseenrol', language 'en'.
  *
  * @package    local_subcourseenrol
- * @copyright  2026
+ * @copyright  2026 Héctor Eduardo Terán Canelones
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
