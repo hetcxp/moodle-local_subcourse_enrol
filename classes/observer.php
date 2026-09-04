@@ -129,7 +129,9 @@ class observer {
      *
      * @param \mod_subcourse\event\course_module_viewed $event
      */
-    public static function subcourse_viewed(\mod_subcourse\event\course_module_viewed $event) {
+    public static function subcourse_viewed(\mod_subcourse\event\course_module_viewed $event): void {
+        global $DB;
+
         if (!self::is_enabled()) {
             return;
         }
@@ -168,7 +170,6 @@ class observer {
         $enrolplugin->enrol_user($instance, $userid, $studentrole->id, time(), (int)$masterenrolment->timeend);
         
         // Fetch the user_enrolments ID for the event objectid.
-        global $DB;
         $ue = $DB->get_record('user_enrolments', ['enrolid' => $instance->id, 'userid' => $userid], 'id', IGNORE_MISSING);
         $objectid = $ue ? $ue->id : 0;
         

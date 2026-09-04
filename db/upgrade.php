@@ -34,6 +34,9 @@ function xmldb_local_subcourseenrol_upgrade($oldversion) {
     global $DB;
     $dbman = $DB->get_manager();
 
+    // The table 'local_subcourseenrol_pending' was introduced in an early iteration
+    // for scheduled queue processing, and dropped in 2026082602 when transitioning
+    // to synchronous event observer auto-enrolment. Kept for upgrade path compatibility.
     if ($oldversion < 2026082601) {
         $table = new xmldb_table('local_subcourseenrol_pending');
         
