@@ -1,7 +1,12 @@
 # --- Herramientas de desarrollo locales ---
 .llm_build/
-tests
 gitdiff.md
+
+# Testing y reportes
+phpunit.xml
+behat.yml
+composer.lock
+coverage/
 
 # Archivos de reglas de otros editores (por si acaso quedaron)
 .cursorrules
